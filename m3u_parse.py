@@ -1,5 +1,7 @@
 #m3u parse
+from Playlist import *
 
+plst = []
 def m3u_parse(fname):
     words = ''
     l = []
@@ -10,15 +12,20 @@ def m3u_parse(fname):
         tmp = []
 
         while data:
+            if '#EXTM3U' in data: 
+                data = f.readline()
+                continue
             if "#EXTINF:" not in data: 
                 tmp.append(data)
                 l.append(tmp)
+                plst.append(Plist_item(data))
+
                 tmp = [] 
             else:
                 tmp.append(data)
             data = f.readline()     
 
-    return l
+    return plst
 def m3u_parseb(fname):
     words = ''
     l = bytes()
